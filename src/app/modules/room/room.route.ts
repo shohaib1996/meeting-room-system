@@ -13,8 +13,16 @@ router.post(
   validateRequest(RoomValidation.roomValidationSchema),
   RoomControllers.createRoom
 );
-router.get("/rooms", RoomControllers.getAllRoom);
-router.get("/rooms/:id", RoomControllers.getSingleRoom);
+router.get(
+  "/rooms",
+  auth(USER_ROLE.admin, USER_ROLE.user),
+  RoomControllers.getAllRoom
+);
+router.get(
+  "/rooms/:id",
+  auth(USER_ROLE.admin, USER_ROLE.user),
+  RoomControllers.getSingleRoom
+);
 router.put(
   "/rooms/:id",
   auth(USER_ROLE.admin),
