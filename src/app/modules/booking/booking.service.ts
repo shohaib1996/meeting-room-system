@@ -43,6 +43,27 @@ const createBookingIntoDB = async (bookingData: TBooking) => {
   return result;
 };
 
+const getAllBookingsFromDB = async () => {
+  const result = await Booking.find()
+    .populate("room")
+    .populate("slots")
+    .populate("user");
+  return result;
+};
+
+const getUserBookingsFromDB = async (userEmail: string) => {
+  const user = await User.findOne({ email: userEmail });
+  const userId = user?._id;
+
+  const bookings = await Booking.find({ user: userId, isDeleted: false })
+    .populate("room")
+    .populate("slots")
+    .populate("user");
+  return bookings;
+};
+
 export const BookingServices = {
   createBookingIntoDB,
+  getAllBookingsFromDB,
+  getUserBookingsFromDB,
 };
