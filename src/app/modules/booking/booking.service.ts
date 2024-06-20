@@ -62,8 +62,40 @@ const getUserBookingsFromDB = async (userEmail: string) => {
   return bookings;
 };
 
+const updateBookingFromDB = async (
+  bookingId: string,
+  updateData: Partial<TBooking>
+) => {
+  const booking = await Booking.findById(bookingId);
+
+  if (!booking) {
+    throw new AppError(httpStatus.NOT_FOUND, "Booking not found");
+  }
+
+  const result = await Booking.findByIdAndUpdate(bookingId, updateData, {
+    new: true,
+  });
+  return result;
+};
+
+const deleteBookingFromDB = async (bookingId: string) => {
+  const booking = await Booking.findById(bookingId);
+
+  if (!booking) {
+    throw new AppError(httpStatus.NOT_FOUND, "Booking not found");
+  }
+  const result = await Booking.findByIdAndUpdate(
+    bookingId,
+    { isDeleted: true },
+    { new: true }
+  );
+  return result;
+};
+
 export const BookingServices = {
   createBookingIntoDB,
   getAllBookingsFromDB,
   getUserBookingsFromDB,
+  updateBookingFromDB,
+  deleteBookingFromDB,
 };
