@@ -5,6 +5,7 @@ import { Slot } from "../slot/slot.model";
 import { User } from "../user/user.model";
 import { TBooking } from "./booking.interface";
 import { Booking } from "./booking.model";
+import QueryBuilder from "../../builder/QueryBuilder";
 
 const createBookingIntoDB = async (bookingData: TBooking) => {
   const { date, slots, room, user } = bookingData;
@@ -43,11 +44,12 @@ const createBookingIntoDB = async (bookingData: TBooking) => {
   return result;
 };
 
-const getAllBookingsFromDB = async () => {
-  const result = await Booking.find()
-    .populate("room")
-    .populate("slots")
-    .populate("user");
+const getAllBookingsFromDB = async (query: Record<string, unknown>) => {
+  const bookingQuery = new QueryBuilder(
+    Booking.find().populate("room").populate("slots").populate("user"),
+    query
+  ).excludeDeleted();
+  const result = await bookingQuery.modelQuery;
   return result;
 };
 

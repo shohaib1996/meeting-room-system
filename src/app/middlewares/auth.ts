@@ -25,14 +25,21 @@ const auth = (...requiredRoles: TUserRole[]) => {
     const { role, email } = decoded;
     const user = await User.findOne({ email: email });
     if (!user) {
-      throw new AppError(httpStatus.NOT_FOUND, "This user is not found !");
+      return next(
+        new AppError(httpStatus.NOT_FOUND, "This user is not found!")
+      );
     }
 
     // Attach decoded user info to the request object
     req.user = decoded as JwtPayload;
 
-    if (requiredRoles && !requiredRoles.includes(role)) {
-      throw new AppError(httpStatus.UNAUTHORIZED, "You are not authorized!");
+    if (requiredRoles.length && !requiredRoles.includes(role)) {
+      return next(
+        new AppError(
+          httpStatus.UNAUTHORIZED,
+          "You have no access to this route"
+        )
+      );
     }
 
     next();

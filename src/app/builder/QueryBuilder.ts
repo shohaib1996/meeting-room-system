@@ -14,6 +14,10 @@ class QueryBuilder<T> {
     this.modelQuery = this.modelQuery.find({ isBooked: false });
     return this;
   }
+  excludeDeleted() {
+    this.modelQuery = this.modelQuery.find({ isDeleted: false });
+    return this;
+  }
 
   filterByParams() {
     const { date, roomId } = this.query;

@@ -2,14 +2,16 @@ import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import { TRoom } from "./room.interface";
 import { Room } from "./room.model";
+import QueryBuilder from "../../builder/QueryBuilder";
 
 const createRoomIntoDB = async (roomData: TRoom) => {
   const result = await Room.create(roomData);
   return result;
 };
 
-const getAllRoomFromDB = async () => {
-  const result = await Room.find();
+const getAllRoomFromDB = async (query: Record<string, unknown>) => {
+  const roomQuery = new QueryBuilder(Room.find(), query).excludeDeleted();
+  const result = await roomQuery.modelQuery;
   return result;
 };
 const getSingleRoomFromDB = async (id: string) => {
