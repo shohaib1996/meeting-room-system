@@ -3,6 +3,7 @@ import { z } from "zod";
 const roomValidationSchema = z.object({
   body: z.object({
     name: z.string().trim().min(1, { message: "Room name is required" }),
+    image: z.string().trim().min(1, { message: "Room image is required" }),
     roomNo: z
       .number()
       .int({ message: "Room number must be an integer" })
@@ -31,6 +32,11 @@ const updateRoomValidationSchema = z.object({
         .string()
         .trim()
         .min(1, { message: "Room name is required" })
+        .optional(),
+      image: z
+        .string()
+        .trim()
+        .min(1, { message: "Room image is required" })
         .optional(),
       roomNo: z
         .number()

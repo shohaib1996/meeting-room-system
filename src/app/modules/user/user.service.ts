@@ -25,6 +25,9 @@ const loginUserIntoDB = async (loginData: TLoginUser) => {
   const jwtPayload = {
     email: user.email,
     role: user.role,
+    name: user.name,     
+    address: user.address,
+    phone: user.phone, 
   };
   const accessToken = createToken(
     jwtPayload,
@@ -38,7 +41,18 @@ const loginUserIntoDB = async (loginData: TLoginUser) => {
     result,
   };
 };
+// const getAllUsersFromDB = async () => {
+//   const users = await User.find().select("-password");  // Exclude password from the result
+//   return users;
+// };
+const getSingleUserByEmailFromDB = async (email: string) => {
+  const user = await User.findOne({ email }).select("-password"); // Find user by email and exclude the password
+  return user;
+};
+
 export const UserServices = {
   createUserIntoDB,
   loginUserIntoDB,
+  // getAllUsersFromDB,
+  getSingleUserByEmailFromDB, 
 };

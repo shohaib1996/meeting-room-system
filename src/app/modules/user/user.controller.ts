@@ -27,8 +27,49 @@ const loginUser = catchAsync(async (req, res) => {
     data: result.result,
   });
 });
+// const getAllUsers = catchAsync(async (req, res) => {
+//   const users = await UserServices.getAllUsersFromDB();
+
+//   sendResponse(res, {
+//     statusCode: httpStatus.OK,
+//     success: true,
+//     message: "Users retrieved successfully",
+//     data: users,
+//   });
+// });
+const getSingleUserByEmail = catchAsync(async (req, res) => {
+  const { email } = req.query;
+  if (!email || typeof email !== "string") {
+    return sendResponse(res, {
+      statusCode: httpStatus.BAD_REQUEST,
+      success: false,
+      message: "Email query parameter must be a valid string",
+      data: {}
+    });
+  }
+
+  const user = await UserServices.getSingleUserByEmailFromDB(email);
+
+  if (!user) {
+    return sendResponse(res, {
+      statusCode: httpStatus.NOT_FOUND,
+      success: false,
+      message: "User not found",
+      data: {}
+    });
+  }
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User retrieved successfully",
+    data: user,
+  });
+});
 
 export const UserControllers = {
   createUser,
   loginUser,
+  // getAllUsers,
+  getSingleUserByEmail,
 };

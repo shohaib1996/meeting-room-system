@@ -15,8 +15,19 @@ router.post(
 );
 router.get(
   "/slots/availability",
-  auth(USER_ROLE.admin, USER_ROLE.user),
+  // auth(USER_ROLE.admin, USER_ROLE.user),
   SlotControllers.getAllSlots
 );
+router.patch(
+  "/slots/:id",
+  auth(USER_ROLE.admin), // Only admin can update
+  validateRequest(SlotValidation.updateSlotSchema),
+  SlotControllers.updateSlot
+);
 
+router.delete(
+  "/slots/:id",
+  auth(USER_ROLE.admin), // Only admin can delete
+  SlotControllers.deleteSlot
+);
 export const SlotRoutes = router;

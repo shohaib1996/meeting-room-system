@@ -59,7 +59,9 @@ const loginValidationSchema = z.object({
   }),
 });
 
+
 export const UserValidation = {
   createUserSchemaValidation,
   loginValidationSchema,
+
 };

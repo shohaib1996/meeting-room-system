@@ -10,7 +10,10 @@ const createRoomIntoDB = async (roomData: TRoom) => {
 };
 
 const getAllRoomFromDB = async (query: Record<string, unknown>) => {
-  const roomQuery = new QueryBuilder(Room.find(), query).excludeDeleted();
+  const roomQuery = new QueryBuilder(Room.find(), query)
+    .excludeDeleted()
+    .filterByParams()
+    .sortByPrice();
   const result = await roomQuery.modelQuery;
   return result;
 };
