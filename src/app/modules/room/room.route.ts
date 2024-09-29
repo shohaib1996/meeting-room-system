@@ -15,12 +15,12 @@ router.post(
 );
 router.get(
   "/rooms",
-  auth(USER_ROLE.admin, USER_ROLE.user),
+  // auth(USER_ROLE.admin, USER_ROLE.user),
   RoomControllers.getAllRoom
 );
 router.get(
   "/rooms/:id",
-  auth(USER_ROLE.admin, USER_ROLE.user),
+  // auth(USER_ROLE.admin, USER_ROLE.user),
   RoomControllers.getSingleRoom
 );
 router.put(

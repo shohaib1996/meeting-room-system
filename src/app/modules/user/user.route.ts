@@ -16,5 +16,8 @@ router.post(
   validateRequest(UserValidation.loginValidationSchema),
   UserControllers.loginUser
 );
+router.get("/user", UserControllers.getSingleUserByEmail);
+// router.get("/user", UserControllers.getSingleUserByEmail);
+
 
 export const UserRoutes = router;

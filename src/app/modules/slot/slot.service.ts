@@ -38,6 +38,19 @@ const getAllSlotFromDB = async (query: Record<string, unknown>) => {
   return result;
 };
 
+const updateSlotInDB = async (slotId: string, updatedData: Partial<TSlot>) => {
+  const updatedSlot = await Slot.findByIdAndUpdate(slotId, updatedData, {
+    new: true, // Return the updated document
+  });
+  return updatedSlot;
+};
+
+
+const deleteSlotFromDB = async (slotId: string) => {
+  await Slot.findByIdAndDelete(slotId);
+};
+
+
 const convertToMinutes = (time: string) => {
   const [hours, minutes] = time.split(":").map(Number);
   return hours * 60 + minutes;
@@ -50,4 +63,6 @@ const convertToTime = (minutes: number) => {
 export const SlotServices = {
   createSlotIntoDB,
   getAllSlotFromDB,
+  updateSlotInDB,
+  deleteSlotFromDB
 };
